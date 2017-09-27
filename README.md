@@ -1,2 +1,2 @@
 # SeleniumReportTestNGExtent
-Report for Selenium with Extent and TestNG
+Example and tools for Selenium Webdriver and Reports with TestNG and Extent.
