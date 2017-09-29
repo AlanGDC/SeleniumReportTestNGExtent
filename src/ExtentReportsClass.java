@@ -28,37 +28,37 @@ public class ExtentReportsClass{
 		extent = new ExtentReports (System.getProperty("user.dir") +"/test-output/STMExtentReport.html", true);
 		//extent.addSystemInfo("Environment","Environment Name")
 		extent
-                .addSystemInfo("Host Name", "SoftwareTestingMaterial")
-                .addSystemInfo("Environment", "Automation Testing")
-                .addSystemInfo("User Name", "Rajkumar SM");
+                .addSystemInfo("Host Name", 	"Host Example (AlanGDC)")
+                .addSystemInfo("Environment", 	"Environment  Example (AlanGDC)")
+                .addSystemInfo("User Name", 	"User Example (AlanGDC)");
                 //loading the external xml file (i.e., extent-config.xml) which was placed under the base directory
                 //You could find the xml file below. Create xml file in your project and copy past the code mentioned below
                 extent.loadConfig(new File(System.getProperty("user.dir")+"/extent-config.xml"));
 	}
 		
 	@Test
-	public void passTest(){
+	public void passTest(String passName){
 		//extent.startTest("TestCaseName", "Description")
 		//TestCaseName – Name of the test
 		//Description – Description of the test
 		//Starting test
-		logger = extent.startTest("passTest");
+		logger = extent.startTest(passName);
 		Assert.assertTrue(true);
 		//To generate the log when the test case is passed
-		logger.log(LogStatus.PASS, "Test Case Passed is passTest");
+		logger.log(LogStatus.PASS, "Test Case Passed is "+ passName);
 	}
 	
 	@Test
-	public void failTest(){
-		logger = extent.startTest("failTest");
+	public void failTest(String failName){
+		logger = extent.startTest(failName);
 		Assert.assertTrue(false);
-		logger.log(LogStatus.PASS, "Test Case (failTest) Status is passed");
+		logger.log(LogStatus.PASS, "Test Case Faleid is "+ failName);
 	}
 	
 	@Test
-	public void skipTest(){
-		logger = extent.startTest("skipTest");
-		throw new SkipException("Skipping - This is not ready for testing ");
+	public void skipTest(String skipName){
+		logger = extent.startTest(skipName);
+		throw new SkipException("Skipping - This is not ready for testing, nameTest: " + skipName);
 	}
 	
 	@AfterMethod
@@ -73,6 +73,12 @@ public class ExtentReportsClass{
 		//endTest(logger) : It ends the current test and prepares to create HTML report
 		extent.endTest(logger);
 	}
+	
+	/* agregado */
+	public void endTestNew()
+	{extent.endTest(logger);
+	}
+	
 	@AfterTest
 	public void endReport(){
 		// writing everything to document
