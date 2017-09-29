@@ -10,137 +10,102 @@ import java.util.UUID;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
+import org.testng.ITestResult;
 
 public class SeleniumTests {
 
 	
 	public static void main (String[] args) throws InterruptedException
 	{
-		String uuid = UUID.randomUUID().toString();
 
-		//Now this uuid enter to your text box
-		
+			//Random String Generator
+			String uuid = UUID.randomUUID().toString();
 	
-	 
-        WebDriver driver = new FirefoxDriver();
-        //driver.get("localhost:8080/thalamus/bo/app");
-        driver.get("https://testa-thalamus-bocc.thalamuslive.com/thalamus/bo/login.jsp");
-        
-        //Wait for element to show
+		
+		 
+	        WebDriver driver = new FirefoxDriver();
+	        driver.get("https://crmwebtest.capsulecrm.com/");
+	        
+	      
+	        //Wait for element to show
         	WebDriverWait wait = new WebDriverWait(driver, 10);
-        	WebElement loginOk = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("j_username")));
-        
-        //Complete and login user
-        
-	        loginOk = driver.findElement(By.id("j_username"));
-	        loginOk.sendKeys("core@thalamuscorp.com");
-	        loginOk = driver.findElement(By.id("j_password"));
+	        	
+	        	
+	        //Report
+        	ExtentReportsClass report = new ExtentReportsClass();  
 	        
-	        loginOk.sendKeys("C12345678");
-	        loginOk.submit();
+        	report.startReport();
+	        //Complete and login user
+        	
+        	
+        	WebElement loginOk = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login:usernameDecorate:username")));
+        	
+        	loginOk = driver.findElement(By.id("login:usernameDecorate:username"));
+	        loginOk.sendKeys("Alan_Carvalhosa");
 	        
-	        
-        //Wait for element to show
+	        loginOk = driver.findElement(By.id("login:passwordDecorate:password"));
+	        loginOk.sendKeys("faithless9");
+
+   	
+        	WebElement buttonLogin = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.id("login:login")));
+        	buttonLogin.click();
+        	try {
+        	 	WebElement personNew = wait.until(
+                        ExpectedConditions.visibilityOfElementLocated(By.id("ember551")));
+        	 	personNew.click();
+        	}
+        	catch (Exception e) {
+        	System.out.println("Hubo error con el usuario '" + e + "'");	
+        	
+        	report.failTest("Fallo login usuario");
+        	report.endTestNew();
+        	report.endReport();
+        	driver.get("file:///home/thalamus1/selenium/ThalamusTest/test-output/STMExtentReport.html");
+        	
+        	}
+        	report.passTest("Login OK");
+        	report.endTestNew();
+        	
+        	//New Person
  
-        	WebElement configurationHome = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='thalamusboapp-218829419']/div/div[2]/div[3]/div/div/div[3]/div/span/span")));
+       
+        	
 
-        
-        	
-	        configurationHome.click();
-        
-        	WebElement touchPoint = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".v-gridlayout-margin-top > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) > span:nth-child(1)")));
+        	        	
+        	//Click "Add Person"
+        	WebElement buttonAddPerson = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary")));
 
-        	touchPoint.click();
+        	buttonAddPerson.click();
+          	
         	
-        	
-        	//create
-        	WebElement touchPointCreate = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.v-slot-linksbarpanel:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) > span:nth-child(1)")));
-        	
-        	touchPointCreate.click();
-        	
-        	//Name
+        	//Complete FirstName and press Save
+        	WebElement firstName = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.id("party:fnDecorate:fn")));
+        	firstName.sendKeys(uuid);
 
-        	WebElement touchPointName = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#gwt-uid-32")));
         	
-        	touchPointName.click();
-        	touchPointName.sendKeys(uuid);
+        	WebElement saveButton = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.id("party:save")));
+        	saveButton.click();        	
         	
-        	//code
-        	WebElement touchPointCode = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#gwt-uid-34")));
-        	touchPointCode.click();
-        	touchPointCode.sendKeys(uuid);
+        	//Click Person List
+        	 
+        	WebElement personList = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#wrapper > div.nav-bar > div.nav-bar-section.nav-bar-main > nav > a.nav-bar-item.nav-bar-item-parties.tipped")));
+        	personList.click();        	
+         	
         	
-        	//description        	
-        	WebElement touchPointDescription = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#gwt-uid-36")));
-        	touchPointDescription.click();
-        	touchPointDescription.sendKeys(uuid);
+        	report.passTest("Create New person OK");
+        	report.endTestNew();
         	
-        	
-        	//active
-        	WebElement touchPointActive = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#gwt-uid-21")));
-        	touchPointActive.click();
-        	
-        	//seleccionar arg
-        	WebElement touchPointCountry = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".v-select-twincol-options > option:nth-child(11)")));
-        	touchPointCountry.click();        
-        	
-        	//agrego pais
-        	WebElement touchPointCountrySelect = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".v-select-twincol-buttons > div:nth-child(1) > span:nth-child(1) > span:nth-child(1)")));
-        	touchPointCountrySelect.click();        
+
+          	  	        	
+        	report.endReport();
+        	driver.get("file:///home/thalamus1/selenium/ThalamusTest/test-output/STMExtentReport.html");
         	
         	
-        	//boton brand families
-        	WebElement touchPointBrandButton = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.v-filterselect-required:nth-child(1) > div:nth-child(2)")));
-        	touchPointBrandButton.click();        
-        	
-        	//elige valor drop
-        	WebElement touchPointBrandSelection = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".v-filterselect-suggestmenu > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1)")));
-        	touchPointBrandSelection.click();        
-        	
-        	//session in time
-        	WebElement touchPointSession = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#gwt-uid-44")));
-        	touchPointSession.click();
-        	touchPointSession.sendKeys("999");
-        	
-        	
-        	//allow login validation
-        	WebElement touchPointLoginValid = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.v-gridlayout-slot:nth-child(33) > div:nth-child(1) > div:nth-child(2)")));
-        	touchPointLoginValid.click();
-        	
-        	
-        	//valor login validation
-        	WebElement touchPointLoginValidSelec = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".gwt-MenuItem-selected")));
-        	touchPointLoginValidSelec.click();
-        	
-        	//save Button
-        	WebElement touchPointSave = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".v-align-right > div:nth-child(1) > span:nth-child(1)")));
-        	touchPointSave.click();
-        	
-        	//Name Column
-        	WebElement touchPointColum = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".v-align-right > div:nth-child(1) > span:nth-child(1)")));
-        	touchPointColum.click();
-        	
-        	touchPointColum.sendKeys(uuid);
-        	touchPointColum.submit();
-        	//
-        	
-        	driver.close();
 	}
 	
 }
